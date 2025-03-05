@@ -21,7 +21,7 @@ export async function getStaticPaths() {
   return paths
 }
 
-const { tag } = Astro.params as any
+const { tag } = Astro.params
 
 const [pagesByTag, tagsResult] = await Promise.all([
   fetchPages(config.apiKey, {

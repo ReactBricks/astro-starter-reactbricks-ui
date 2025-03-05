@@ -17,7 +17,7 @@ export async function getStaticPaths() {
 
   const pages = allPages
     .map((page) =>
-      page.translations.map((translation: any) => ({
+      page.translations.map((translation) => ({
         params: {
           slug: translation.slug,
         },
@@ -28,7 +28,7 @@ export async function getStaticPaths() {
   return pages
 }
 
-const { slug } = Astro.params as any
+const { slug } = Astro.params
 
 let cleanSlug = ''
 
@@ -36,8 +36,6 @@ if (!slug) {
   cleanSlug = '/'
 } else if (typeof slug === 'string') {
   cleanSlug = slug
-} else {
-  cleanSlug = slug.join('/')
 }
 
 const page = await fetchPage({

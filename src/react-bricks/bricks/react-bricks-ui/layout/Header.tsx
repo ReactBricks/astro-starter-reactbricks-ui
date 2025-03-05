@@ -46,8 +46,7 @@ const Header: types.Brick<HeaderProps> = ({
 
   const toggleColorMode = () => {
     if (typeof window !== 'undefined') {
-      const newColorMode =
-        window.theme.getTheme() === 'light' ? 'dark' : 'light'
+      const newColorMode = window.theme.getTheme() === 'dark' ? 'light' : 'dark'
       window.theme.setTheme(newColorMode)
       setCurrentTheme(newColorMode)
     }
@@ -105,10 +104,10 @@ const Header: types.Brick<HeaderProps> = ({
             className="flex items-center justify-center w-8 h-8 mr-4 ml-auto lg:ml-8 text-gray-400 dark:text-gray-200"
             onClick={toggleColorMode}
           >
-            {currentTheme === 'light' ? (
-              <BsMoonFill />
-            ) : (
+            {currentTheme === 'dark' ? (
               <BsSunFill className="text-xl" />
+            ) : (
+              <BsMoonFill />
             )}
           </button>
         )}
