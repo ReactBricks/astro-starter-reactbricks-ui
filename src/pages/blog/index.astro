@@ -1,0 +1,58 @@
+---
+import { reactBricksAstroStore } from 'react-bricks/astro'
+import { fetchPages, fetchTags } from 'react-bricks/astro/server'
+import PostListItem from '../../components/PostListItem.astro'
+import TagListItem from '../../components/TagListItem.astro'
+import BaseLayout from '../../layouts/BaseLayout.astro'
+
+const config = reactBricksAstroStore.getConfig()
+
+const { items: tags } = await fetchTags(config.apiKey)
+tags.sort()
+
+const posts = await fetchPages(config.apiKey, {
+  type: 'blog',
+  pageSize: 1000,
+  sort: '-publishedAt',
+})
+---
+
+<BaseLayout>
+  <Fragment slot="head">
+    <title>Post List</title>
+    <meta name="description" content="React Bricks Blog starter" />
+  </Fragment>
+
+  <div class="bg-white dark:bg-gray-900">
+    <div class="max-w-6xl mx-auto px-8 py-16">
+      <h1
+        class="max-w-2xl text-4xl sm:text-6xl lg:text-4xl font-bold tracking-tight text-gray-900 dark:text-white pb-4 mt-10 sm:mt-12 mb-4"
+      >
+        Our latest articles
+      </h1>
+
+      <div class="flex flex-wrap items-center">
+        {tags?.map((tag) => <TagListItem tag={tag} />)}
+      </div>
+
+      <hr class="mt-6 mb-10 dark:border-gray-600" />
+
+      <div class="grid lg:grid-cols-2 xl:grid-cols-3 sm:gap-12">
+        {
+          posts?.map((post) => {
+            return (
+              <PostListItem
+                title={post.meta.title || ''}
+                href={post.slug}
+                content={post.meta.description || ''}
+                author={post.author}
+                date={post.publishedAt || ''}
+                featuredImg={post.meta.image}
+              />
+            )
+          })
+        }
+      </div>
+    </div>
+  </div>
+</BaseLayout>

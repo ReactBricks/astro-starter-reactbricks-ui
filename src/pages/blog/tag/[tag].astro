@@ -1,0 +1,95 @@
+---
+import { reactBricksAstroStore } from 'react-bricks/astro'
+import { fetchPages, fetchTags } from 'react-bricks/astro/server'
+import PostListItem from '../../../components/PostListItem.astro'
+import TagListItem from '../../../components/TagListItem.astro'
+import BaseLayout from '../../../layouts/BaseLayout.astro'
+
+const config = reactBricksAstroStore.getConfig()
+
+export async function getStaticPaths() {
+  const config = reactBricksAstroStore.getConfig()
+
+  const { items: tags } = await fetchTags(config.apiKey)
+
+  const paths = tags.map((tag) => ({
+    params: {
+      tag,
+    },
+  }))
+
+  return paths
+}
+
+const { tag } = Astro.params as any
+
+const [pagesByTag, tagsResult] = await Promise.all([
+  fetchPages(config.apiKey, {
+    tag: tag.toString(),
+    type: 'blog',
+    pageSize: 100,
+    sort: '-publishedAt',
+  }),
+  fetchTags(config.apiKey),
+])
+
+const allTags = tagsResult.items.sort()
+---
+
+<BaseLayout>
+  <Fragment slot="head">
+    <title>{tag} articles</title>
+    <meta name="description" content={tag} />
+  </Fragment>
+
+  <style>
+    h2 + p {
+      margin-top: 0 !important;
+    }
+    h3 + p {
+      margin-top: 0 !important;
+    }
+  </style>
+
+  <div class="bg-white dark:bg-gray-900">
+    <div class="max-w-6xl mx-auto px-8 py-16">
+      <div
+        class="flex items-center justify-between text-gray-900 dark:text-white pb-4 mt-10 sm:mt-12 mb-4"
+      >
+        <h1
+          class="max-w-2xl text-4xl sm:text-6xl lg:text-4xl font-bold tracking-tight"
+        >
+          {tag} articles
+        </h1>
+
+        <a
+          href="/blog"
+          class="hover:-translate-x-2 transition-transform duration-300"
+        >
+          &laquo; Return to blog
+        </a>
+      </div>
+
+      <div class="flex flex-wrap items-center">
+        {allTags?.map((tag) => <TagListItem tag={tag} />)}
+      </div>
+
+      <hr class="mt-6 mb-10 dark:border-gray-600" />
+
+      <div class="grid lg:grid-cols-2 xl:grid-cols-3 sm:gap-12">
+        {
+          pagesByTag?.map((post) => (
+            <PostListItem
+              title={post.meta.title || ''}
+              href={post.slug}
+              content={post.meta.description || ''}
+              author={post.author}
+              date={post.publishedAt || ''}
+              featuredImg={post.meta.image}
+            />
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</BaseLayout>

@@ -1,0 +1,55 @@
+{
+  "name": "astro-starter-reactbricks-ui",
+  "license": "SEE LICENSE IN LICENSE",
+  "version": "1.0.0-beta.1",
+  "author": "Dario Ronzoni <dario@reactbricks.com>",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/node": "^9.1.2",
+    "@astrojs/react": "^4.2.1",
+    "@astrojs/rss": "^4.0.11",
+    "@astrojs/tailwind": "^5.1.5",
+    "@fontsource-variable/nunito-sans": "^5.2.5",
+    "@tailwindcss/forms": "^0.5.10",
+    "astro": "^5.4.1",
+    "email-validator": "^2.0.4",
+    "jsonp": "^0.2.1",
+    "react": ">=19",
+    "react-bricks": "4.7.0-beta.5",
+    "react-dom": ">=19",
+    "react-hook-form": "^7.54.2",
+    "react-icons": "^5.5.0",
+    "react-slick": "^0.30.3",
+    "tailwindcss": "^3.4.17"
+  },
+  "devDependencies": {
+    "@types/jsonp": "^0.2.3",
+    "@types/react": "19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "@types/react-slick": "^0.23.13"
+  },
+  "keywords": [
+    "astro",
+    "react-bricks",
+    "react bricks",
+    "tailwind"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/reactbricks/astro-starter-reactbricks-ui"
+  },
+  "bugs": {
+    "url": "https://github.com/reactbricks/astro-starter-reactbricks-ui/issues"
+  },
+  "prettier": {
+    "printWidth": 80,
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "es5"
+  }
+}

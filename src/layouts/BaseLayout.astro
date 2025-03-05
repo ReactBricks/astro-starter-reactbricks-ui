@@ -1,0 +1,73 @@
+---
+import '@fontsource-variable/nunito-sans'
+
+import { ClientRouter } from 'astro:transitions'
+import { getBricks, reactBricksAstroStore } from 'react-bricks/astro'
+import PageViewer from 'react-bricks/astro/PageViewer.astro'
+import { cleanPage, fetchPage } from 'react-bricks/astro/server'
+import ErrorNoFooter from '../components/ErrorNoFooter.astro'
+import ErrorNoHeader from '../components/ErrorNoHeader.astro'
+import ThemeManager from '../components/ThemeManager.astro'
+
+const config = reactBricksAstroStore.getConfig()
+
+let errorHeader = false
+let errorFooter = false
+
+const [header, footer] = await Promise.all([
+  fetchPage({ slug: 'header', config }).catch(() => {
+    errorHeader = true
+    return null
+  }),
+  fetchPage({ slug: 'footer', config }).catch(() => {
+    errorFooter = true
+    return null
+  }),
+])
+
+// Clean the received content
+// Removes unknown or not allowed bricks
+const bricks = getBricks()
+const headerOk = header
+  ? cleanPage(header, config.pageTypes || [], bricks)
+  : null
+const footerOk = footer
+  ? cleanPage(footer, config.pageTypes || [], bricks)
+  : null
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <slot name="head" />
+    <ThemeManager defaultTheme="auto" />
+    <ClientRouter />
+  </head>
+  <body>
+    <div
+      class="flex flex-col h-screen justify-between font-content antialiased"
+    >
+      <main class="mb-auto dark:bg-gray-900">
+        {
+          headerOk && !errorHeader ? (
+            <PageViewer page={headerOk} main={false} />
+          ) : (
+            <ErrorNoHeader />
+          )
+        }
+
+        <slot />
+
+        {
+          footerOk && !errorFooter ? (
+            <PageViewer page={footerOk} main={false} />
+          ) : (
+            <ErrorNoFooter />
+          )
+        }
+      </main>
+    </div>
+  </body>
+</html>

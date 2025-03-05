@@ -1,0 +1,57 @@
+---
+import { reactBricksAstroStore } from 'react-bricks/astro'
+import PageViewer from 'react-bricks/astro/PageViewer.astro'
+import { fetchPage, fetchPages } from 'react-bricks/astro/server'
+import BaseLayout from '../layouts/BaseLayout.astro'
+
+const config = reactBricksAstroStore.getConfig()
+
+export async function getStaticPaths() {
+  const config = reactBricksAstroStore.getConfig()
+
+  const allPages = await fetchPages(config.apiKey, {
+    type: 'page',
+  })
+
+  const pages = allPages
+    .map((page) =>
+      page.translations.map((translation: any) => ({
+        params: {
+          slug: translation.slug,
+        },
+      }))
+    )
+    .flat()
+
+  return pages
+}
+
+const { slug } = Astro.params as any
+
+let cleanSlug = ''
+
+if (!slug) {
+  cleanSlug = '/'
+} else if (typeof slug === 'string') {
+  cleanSlug = slug
+} else {
+  cleanSlug = slug.join('/')
+}
+
+const page = await fetchPage({
+  slug: cleanSlug,
+  config,
+})
+---
+
+<BaseLayout>
+  <Fragment slot="head">
+    <title>{page?.meta.title || ''}</title>
+    <meta
+      name="description"
+      content={page?.meta.description || page?.meta.title || ''}
+    />
+  </Fragment>
+
+  <PageViewer page={page} main />
+</BaseLayout>
