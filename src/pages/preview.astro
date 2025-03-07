@@ -1,0 +1,36 @@
+---
+import { reactBricksAstroStore } from 'react-bricks/astro'
+import PageViewer from 'react-bricks/astro/PageViewer.astro'
+import { fetchPagePreview } from 'react-bricks/astro/server'
+import BaseLayout from '../layouts/BaseLayout.astro'
+
+export const prerender = 'server'
+
+const config = reactBricksAstroStore.getConfig()
+
+const token = Astro.url.searchParams.get('p') || ''
+if (!token) {
+  return new Response('Token not valid', { status: 401 })
+}
+
+const page = await fetchPagePreview({
+  token,
+  config,
+})
+
+if (!page) {
+  return new Response('Not Found', { status: 404 })
+}
+---
+
+<BaseLayout>
+  <Fragment slot="head">
+    <title>{page?.meta.title || ''}</title>
+    <meta
+      name="description"
+      content={page?.meta.description || page?.meta.title || ''}
+    />
+  </Fragment>
+
+  <PageViewer page={page} main />
+</BaseLayout>
