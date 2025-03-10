@@ -3,6 +3,7 @@ import { reactBricksAstroStore } from 'react-bricks/astro'
 import PageViewer from 'react-bricks/astro/PageViewer.astro'
 import { fetchPage, fetchPages } from 'react-bricks/astro/server'
 import BaseLayout from '../layouts/BaseLayout.astro'
+import { createSlug } from '../util/i18n';
 
 const config = reactBricksAstroStore.getConfig()
 
@@ -13,32 +14,27 @@ export async function getStaticPaths() {
     type: 'page',
   })
 
-  const pages = allPages
-    .map((page) =>
-      page.translations.map((translation) => ({
-        params: {
-          slug: translation.slug,
-        },
-      }))
-    )
-    .flat()
+  const pages = allPages.flatMap((page) => {
+    return page.translations.map((translation) => ({
+      params: {
+        slug: createSlug(translation.language, translation.slug),
+      },
+      props: {
+        slug: translation.slug,
+        lang: translation.language,
+      },
+    }))
+  })
 
   return pages
 }
 
-const { slug } = Astro.params
-
-let cleanSlug = ''
-
-if (!slug) {
-  cleanSlug = '/'
-} else if (typeof slug === 'string') {
-  cleanSlug = slug
-}
+const { lang, slug } = Astro.props
 
 const page = await fetchPage({
-  slug: cleanSlug,
+  slug,
   config,
+  language: lang,
 })
 
 if (!page) {
@@ -46,7 +42,7 @@ if (!page) {
 }
 ---
 
-<BaseLayout>
+<BaseLayout lang={lang}>
   <Fragment slot="head">
     <title>{page?.meta.title || ''}</title>
     <meta
