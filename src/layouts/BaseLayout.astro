@@ -8,6 +8,13 @@ import { cleanPage, fetchPage } from 'react-bricks/astro/server'
 import ErrorNoFooter from '../components/ErrorNoFooter.astro'
 import ErrorNoHeader from '../components/ErrorNoHeader.astro'
 import ThemeManager from '../components/ThemeManager.astro'
+import { defaultLocale } from '../util/i18n'
+
+interface Props {
+  lang?: string
+}
+
+const { lang = defaultLocale } = Astro.props
 
 const config = reactBricksAstroStore.getConfig()
 
@@ -36,13 +43,13 @@ const footerOk = footer
   : null
 ---
 
-<html lang="en">
+<html lang={lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <slot name="head" />
-    <ThemeManager defaultTheme="auto" />
+    <ThemeManager defaultTheme="auto' />
     <ClientRouter />
   </head>
   <body>
