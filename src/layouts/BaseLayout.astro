@@ -45,18 +45,18 @@ const footerOk = footer
 
 <html lang={lang}>
   <head>
-    <meta charset='utf-8' />
-    <meta name='viewport' content='width=device-width' />
-    <meta name='generator' content={Astro.generator} />
-    <slot name='head' />
-    <ThemeManager defaultTheme='auto' />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <slot name="head" />
+    <ThemeManager defaultTheme="auto' />
     <ClientRouter />
   </head>
   <body>
     <div
-      class='flex flex-col h-screen justify-between font-content antialiased'
+      class="flex flex-col h-screen justify-between font-content antialiased"
     >
-      <main class='mb-auto dark:bg-gray-900'>
+      <main class="mb-auto dark:bg-gray-900">
         {
           headerOk && !errorHeader ? (
             <PageViewer page={headerOk} main={false} />
