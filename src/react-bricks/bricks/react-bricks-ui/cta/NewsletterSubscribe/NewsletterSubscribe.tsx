@@ -171,7 +171,7 @@ const Newsletter: types.Brick<NewsletterProps> = ({
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="Your email"
-                      className="focus:outline-none dark:bg-black rounded-l-[5px] py-2.5 px-[15px] pl-10 text-sm dark:text-white border border-r-0 dark:border-white/50 focus:border-sky-500 dark:focus:border-sky-700"
+                      className="focus:outline-hidden dark:bg-black rounded-l-[5px] py-2.5 px-[15px] pl-10 text-sm dark:text-white border border-r-0 dark:border-white/50 focus:border-sky-500 dark:focus:border-sky-700"
                     />
                   </div>
                 </div>

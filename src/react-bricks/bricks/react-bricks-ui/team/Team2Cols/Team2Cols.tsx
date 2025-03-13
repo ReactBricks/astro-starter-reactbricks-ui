@@ -51,7 +51,7 @@ const Team2Cols: types.Brick<Team2ColsProps> = ({
             bigCentered={bigCenteredTitle}
           />
         )}
-        <ul className="grid grid-cols-[repeat(auto-fit,_minmax(240px,_1fr))] lg:grid-cols-2 gap-8 mb-12">
+        <ul className="grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] lg:grid-cols-2 gap-8 mb-12">
           <Repeater propName="members" items={members} />
         </ul>
       </Container>

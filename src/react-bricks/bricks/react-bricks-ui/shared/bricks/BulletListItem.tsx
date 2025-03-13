@@ -26,7 +26,7 @@ const BulletListItem: types.Brick<BulletListItemProps> = ({
     >
       <div
         className={classNames(
-          'flex-shrink-0 flex justify-center items-center w-5 h-5 rounded-full mr-3 text-sm',
+          'shrink-0 flex justify-center items-center w-5 h-5 rounded-full mr-3 text-sm',
           bulletColor.className
         )}
       >

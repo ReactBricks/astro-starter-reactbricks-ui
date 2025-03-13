@@ -53,7 +53,7 @@ const SmallLogoGrid: types.Brick<SmallLogoGridProps> = ({
         />
         <div
           className={classNames(
-            'grid gap-5 auto-rows-auto grid-cols-[repeat(auto-fit,_minmax(60px,_60px))]'
+            'grid gap-5 auto-rows-auto grid-cols-[repeat(auto-fit,minmax(60px,60px))]'
           )}
         >
           <Repeater

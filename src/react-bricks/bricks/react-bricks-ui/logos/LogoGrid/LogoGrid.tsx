@@ -53,7 +53,7 @@ const LogoGrid: types.Brick<LogoGridProps> = ({
         />
         <div
           className={classNames(
-            'grid gap-5 auto-rows-auto grid-flow-dense grid-cols-[repeat(auto-fill,_minmax(120px,_1fr))] lg:grid-cols-[repeat(auto-fill,_minmax(180px,_1fr))]'
+            'grid gap-5 auto-rows-auto grid-flow-dense grid-cols-[repeat(auto-fill,minmax(120px,1fr))] lg:grid-cols-[repeat(auto-fill,minmax(180px,1fr))]'
           )}
         >
           <Repeater

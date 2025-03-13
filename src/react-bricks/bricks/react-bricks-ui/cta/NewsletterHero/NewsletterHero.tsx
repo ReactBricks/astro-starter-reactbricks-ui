@@ -60,23 +60,21 @@ const CallToAction: types.Brick<CallToActionProps> = ({
         )}
       >
         <div className="flex-1 lg:pr-14 mb-4 lg:mb-0">
-          <div
-            className={classNames('mb-4', gradients[textGradient].className)}
-            style={titleStyle}
-          >
+          <div className="mb-4" style={titleStyle}>
             <Text
               propName="title"
               value={title}
               renderBlock={(props) => (
-                <p
+                <h2
                   className={classNames(
-                    'font-bold text-[32px] leading-tight md:text-4xl xl:text-5xl bg-clip-text bg-gradient-to-r',
-                    textColors.GRAY_900
+                    'font-bold text-[32px] leading-tight md:text-4xl xl:text-5xl bg-clip-text bg-linear-to-r',
+                    textColors.GRAY_900,
+                    gradients[textGradient].className
                   )}
                   {...props.attributes}
                 >
                   {props.children}
-                </p>
+                </h2>
               )}
               placeholder="Call to action text"
             />
@@ -128,7 +126,7 @@ const CallToAction: types.Brick<CallToActionProps> = ({
                 </svg>
 
                 <input
-                  className="w-full md:w-auto bg-white focus:outline-none border-t border-l border-r sm:border-r-0 sm:border-b border-gray-300 focus:border-sky-500 rounded-t-md sm:rounded-tr-none sm:rounded-l-md py-2 px-4 appearance-none leading-normal pl-10"
+                  className="w-full md:w-auto bg-white focus:outline-hidden border-t border-l border-r sm:border-r-0 sm:border-b border-gray-300 focus:border-sky-500 rounded-t-md sm:rounded-tr-none sm:rounded-l-md py-2 px-4 appearance-none leading-normal pl-10"
                   type="text"
                   placeholder="Your email address"
                 />

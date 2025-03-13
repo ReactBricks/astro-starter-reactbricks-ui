@@ -33,7 +33,7 @@ const Document: types.Brick<DocumentProps> = ({
   linkText,
 }) => {
   return (
-    <div className="p-7 flex border border-black/10 dark:border-white/10 bg-white dark:bg-white/10 rounded">
+    <div className="p-7 flex border border-black/10 dark:border-white/10 bg-white dark:bg-white/10 rounded-sm">
       <File
         propName="file"
         source={file}
@@ -91,7 +91,7 @@ const Document: types.Brick<DocumentProps> = ({
                     placeholder=""
                   />
                   {withSize && !!file.size && (
-                    <span className="p-1 rounded bg-gray-100 text-gray-500 text-xs ml-2">
+                    <span className="p-1 rounded-sm bg-gray-100 text-gray-500 text-xs ml-2">
                       {formatFileSize(file.size)}
                     </span>
                   )}

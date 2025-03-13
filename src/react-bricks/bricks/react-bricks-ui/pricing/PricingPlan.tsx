@@ -36,7 +36,7 @@ const PricingPlan: types.Brick<PricingPlanProps> = ({
   return (
     <div
       className={classNames(
-        'm-4 p-5 border border-t-4 rounded flex-1 min-w-[250px] max-w-[350px] text-center flex flex-col sm:w-[250px] md:w-[270px] lg:w-[300px]',
+        'm-4 p-5 border border-t-4 rounded-sm flex-1 min-w-[250px] max-w-[350px] text-center flex flex-col sm:w-[250px] md:w-[270px] lg:w-[300px]',
         pricingColor.mainDivClassName
       )}
     >
@@ -119,7 +119,7 @@ const PricingPlan: types.Brick<PricingPlanProps> = ({
         href={buttonLinkPath}
         className={classNames(
           'cursor-pointer block mb-8',
-          'text-center text-lg py-2 px-3 sm:px-5 rounded hover:text-white font-medium border-2 hover:shadow-lg transition duration-200',
+          'text-center text-lg py-2 px-3 sm:px-5 rounded-sm hover:text-white font-medium border-2 hover:shadow-lg transition duration-200',
           pricingColor.buttonClassName,
           'dark:hover:text-white'
         )}

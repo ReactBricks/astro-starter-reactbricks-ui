@@ -53,7 +53,7 @@ const PlanFeature: types.Brick<PlanFeatureProps> = ({
           renderBlock={(props) => (
             <div
               className={classNames(
-                'ml-1.5 min-w-[30px] px-1 py-1 leading-none rounded font-medium text-sm',
+                'ml-1.5 min-w-[30px] px-1 py-1 leading-none rounded-sm font-medium text-sm',
                 pricingColor.featureTagClassName
               )}
             >

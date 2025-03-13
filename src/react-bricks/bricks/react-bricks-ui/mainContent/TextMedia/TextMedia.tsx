@@ -335,13 +335,13 @@ TextMedia.schema = {
         },
         {
           name: 'hasShadow',
-          label: 'Image shadow',
+          label: 'Image shadow-sm',
           type: types.SideEditPropType.Boolean,
           show: (props) => props.mediaType === 'image',
         },
         {
           name: 'isRounded',
-          label: 'Image rounded corners',
+          label: 'Image rounded-sm corners',
           type: types.SideEditPropType.Boolean,
           show: (props) => props.mediaType === 'image',
         },

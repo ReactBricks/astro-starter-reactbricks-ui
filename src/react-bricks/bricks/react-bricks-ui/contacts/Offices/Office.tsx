@@ -8,7 +8,7 @@ export interface OfficeProps {
 
 const Office: types.Brick<OfficeProps> = ({ city, address }) => {
   return (
-    <div className="py-3 pl-4 bg-gradient-to-r from-gray-50 via-transparent border-l border-gray-300 dark:from-transparent dark:border-gray-700">
+    <div className="py-3 pl-4 bg-linear-to-r from-gray-50 via-transparent border-l border-gray-300 dark:from-transparent dark:border-gray-700">
       <Text
         propName="city"
         value={city}

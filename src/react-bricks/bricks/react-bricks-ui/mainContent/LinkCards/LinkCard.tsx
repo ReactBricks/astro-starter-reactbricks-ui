@@ -27,7 +27,7 @@ const LinkCard: types.Brick<LinkCardProps> = ({
       <Link
         href={linkPath}
         className={classNames(
-          'flex items-center border border-black/10 dark:border-white/10 bg-white dark:bg-white/10 p-5 rounded group hover:-translate-y-[3px] hover:border-sky-500/50 hover:shadow-lg hover:text-sky-600 transition-all ease-out duration-150',
+          'flex items-center border border-black/10 dark:border-white/10 bg-white dark:bg-white/10 p-5 rounded-sm group hover:-translate-y-[3px] hover:border-sky-500/50 hover:shadow-lg hover:text-sky-600 transition-all ease-out duration-150',
           textColors.GRAY_800
         )}
       >

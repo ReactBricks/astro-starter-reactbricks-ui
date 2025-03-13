@@ -30,7 +30,7 @@ const Card: types.Brick<CardProps> = ({
 
   return (
     <div
-      className={`p-7 flex border border-black/10 dark:border-white/10 bg-white dark:bg-white/10 rounded`}
+      className={`p-7 flex border border-black/10 dark:border-white/10 bg-white dark:bg-white/10 rounded-sm`}
     >
       {withIcon && (
         <Image
