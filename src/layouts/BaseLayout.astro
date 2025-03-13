@@ -22,11 +22,11 @@ let errorHeader = false
 let errorFooter = false
 
 const [header, footer] = await Promise.all([
-  fetchPage({ slug: 'header', config }).catch(() => {
+  fetchPage({ slug: 'header', language: lang, config }).catch(() => {
     errorHeader = true
     return null
   }),
-  fetchPage({ slug: 'footer', config }).catch(() => {
+  fetchPage({ slug: 'footer', language: lang, config }).catch(() => {
     errorFooter = true
     return null
   }),
@@ -49,7 +49,7 @@ const footerOk = footer
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <slot name="head" />
-    <ThemeManager defaultTheme="auto' />
+    <ThemeManager defaultTheme="auto" />
     <ClientRouter />
   </head>
   <body>
