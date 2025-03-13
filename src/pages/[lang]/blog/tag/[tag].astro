@@ -33,6 +33,7 @@ export async function getStaticPaths() {
       }))
     )
     .flat()
+    .filter((path) => locales.includes(path.params.lang))
 
   return paths
 }

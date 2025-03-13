@@ -2,6 +2,7 @@
 import { getBricks, reactBricksAstroStore } from 'react-bricks/astro'
 import PageViewer from 'react-bricks/astro/PageViewer.astro'
 import { cleanPage, fetchPage, fetchPages } from 'react-bricks/astro/server'
+import { locales } from '../../i18n/conf'
 import BaseLayout from '../../layouts/BaseLayout.astro'
 
 const config = reactBricksAstroStore.getConfig()
@@ -13,14 +14,17 @@ export async function getStaticPaths() {
     type: 'page',
   })
 
-  const pages = allPages.flatMap((page) => {
-    return page.translations.map((translation) => ({
-      params: {
-        lang: translation.language,
-        slug: translation.slug,
-      },
-    }))
-  })
+  const pages = allPages
+    .map((page) => {
+      return page.translations.map((translation) => ({
+        params: {
+          lang: translation.language,
+          slug: translation.slug,
+        },
+      }))
+    })
+    .flat()
+    .filter((path) => locales.includes(path.params.lang))
 
   return pages
 }
