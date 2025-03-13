@@ -1,42 +1,65 @@
 ---
 import { reactBricksAstroStore } from 'react-bricks/astro'
 import { fetchPages, fetchTags } from 'react-bricks/astro/server'
-import PostListItem from '../../../components/PostListItem.astro'
-import TagListItem from '../../../components/TagListItem.astro'
-import BaseLayout from '../../../layouts/BaseLayout.astro'
+import PostListItem from '../../../../components/PostListItem.astro'
+import TagListItem from '../../../../components/TagListItem.astro'
+import { locales } from '../../../../i18n/conf'
+import { getLocaleUrl } from '../../../../i18n/util'
+import BaseLayout from '../../../../layouts/BaseLayout.astro'
 
 const config = reactBricksAstroStore.getConfig()
 
 export async function getStaticPaths() {
   const config = reactBricksAstroStore.getConfig()
 
-  const { items: tags } = await fetchTags(config.apiKey)
+  const tagsPromises = locales.map((lang) =>
+    fetchTags(config.apiKey, 1, 20, {
+      language: lang,
+    }).then((res) => ({
+      tags: res.items,
+      lang,
+    }))
+  )
 
-  const paths = tags.map((tag) => ({
-    params: {
-      tag,
-    },
-  }))
+  const tagsLanguages = await Promise.all(tagsPromises)
+
+  const paths = tagsLanguages
+    .map(({ tags, lang }) =>
+      tags.map((tag) => ({
+        params: {
+          lang,
+          tag,
+        },
+      }))
+    )
+    .flat()
 
   return paths
 }
 
-const { tag } = Astro.params
+const { lang, tag } = Astro.params
 
-const [pagesByTag, tagsResult] = await Promise.all([
+const [posts, tagsResult] = await Promise.all([
   fetchPages(config.apiKey, {
+    language: lang,
     tag: tag.toString(),
     type: 'blog',
     pageSize: 100,
     sort: '-publishedAt',
   }),
-  fetchTags(config.apiKey),
+  fetchTags(config.apiKey, 1, 20, {
+    language: lang,
+  }),
 ])
 
-const allTags = tagsResult.items.sort()
+const tags = tagsResult.items.sort()
+
+if (!tags.includes(tag)) {
+  return new Response('Not Found', { status: 404 })
+}
 ---
 
-<BaseLayout>
+<BaseLayout lang={lang}>
   <Fragment slot="head">
     <title>{tag} articles</title>
     <meta name="description" content={tag} />
@@ -63,7 +86,7 @@ const allTags = tagsResult.items.sort()
         </h1>
 
         <a
-          href="/blog"
+          href={getLocaleUrl(lang, '/blog')}
           class="hover:-translate-x-2 transition-transform duration-300"
         >
           &laquo; Return to blog
@@ -71,17 +94,18 @@ const allTags = tagsResult.items.sort()
       </div>
 
       <div class="flex flex-wrap items-center">
-        {allTags?.map((tag) => <TagListItem tag={tag} />)}
+        {tags?.map((tag) => <TagListItem tag={tag} lang={lang} />)}
       </div>
 
       <hr class="mt-6 mb-10 dark:border-gray-600" />
 
       <div class="grid lg:grid-cols-2 xl:grid-cols-3 sm:gap-12">
         {
-          pagesByTag?.map((post) => (
+          posts?.map((post) => (
             <PostListItem
               title={post.meta.title || ''}
-              href={post.slug}
+              slug={post.slug}
+              lang={lang}
               content={post.meta.description || ''}
               author={post.author}
               date={post.publishedAt || ''}

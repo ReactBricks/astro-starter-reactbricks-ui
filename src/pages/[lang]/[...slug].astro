@@ -1,20 +1,35 @@
 ---
 import { getBricks, reactBricksAstroStore } from 'react-bricks/astro'
 import PageViewer from 'react-bricks/astro/PageViewer.astro'
-import { cleanPage, fetchPagePreview } from 'react-bricks/astro/server'
-import BaseLayout from '../layouts/BaseLayout.astro'
-
-export const prerender = 'server'
+import { cleanPage, fetchPage, fetchPages } from 'react-bricks/astro/server'
+import BaseLayout from '../../layouts/BaseLayout.astro'
 
 const config = reactBricksAstroStore.getConfig()
 
-const token = Astro.url.searchParams.get('p') || ''
-if (!token) {
-  return new Response('Token not valid', { status: 401 })
+export async function getStaticPaths() {
+  const config = reactBricksAstroStore.getConfig()
+
+  const allPages = await fetchPages(config.apiKey, {
+    type: 'page',
+  })
+
+  const pages = allPages.flatMap((page) => {
+    return page.translations.map((translation) => ({
+      params: {
+        lang: translation.language,
+        slug: translation.slug,
+      },
+    }))
+  })
+
+  return pages
 }
 
-const page = await fetchPagePreview({
-  token,
+const { lang, slug = '/' } = Astro.params
+
+const page = await fetchPage({
+  slug: slug,
+  language: lang,
   config,
 })
 
@@ -28,7 +43,7 @@ if (!pageOk) {
 }
 ---
 
-<BaseLayout lang={pageOk.language}>
+<BaseLayout lang={lang}>
   <Fragment slot="head">
     <title>{pageOk?.meta.title || ''}</title>
     <meta

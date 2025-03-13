@@ -1,21 +1,23 @@
 ---
 import dayjs from 'dayjs'
 import { Image, types } from 'react-bricks/astro'
+import { getLocaleUrl } from '../i18n/util'
 
 type Props = {
   title: string
-  href: string
+  slug: string
+  lang?: string
   content: string
   author: types.Author
   date: string
   featuredImg?: types.IImageSource
 }
 
-const { title, href, content, author, date, featuredImg } = Astro.props
+const { title, lang, slug, content, author, date, featuredImg } = Astro.props
 ---
 
 <a
-  href={`/blog/post/${href}`}
+  href={getLocaleUrl(lang, `/blog/post/${slug}`)}
   class="flex flex-col hover:-translate-y-2 transition-transform duration-300"
 >
   {

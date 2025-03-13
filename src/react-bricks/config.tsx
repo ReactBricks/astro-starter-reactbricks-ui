@@ -1,4 +1,6 @@
 import { reactBricksAstroStore, types } from 'react-bricks/astro'
+import { defaultLocale } from '../i18n/conf'
+import { parseSlug } from '../i18n/util'
 import bricks from './bricks'
 import pageTypes from './pageTypes'
 
@@ -17,7 +19,12 @@ const renderLocalLink: types.RenderLocalLink = ({
 }) => {
   let anchorClassName = className || ''
 
-  const pathname = reactBricksAstroStore.getPathname()
+  let pathname = reactBricksAstroStore.getPathname()
+  const { lang, cleanSlug } = parseSlug(pathname)
+
+  if (lang === defaultLocale) {
+    pathname = cleanSlug
+  }
 
   if (activeClassName && pathname && pathname === href) {
     anchorClassName = `${className} ${activeClassName}`

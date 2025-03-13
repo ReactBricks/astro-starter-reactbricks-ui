@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { ReactBricks } from 'react-bricks'
+import { ReactBricks, types } from 'react-bricks'
 import config from '../../react-bricks/config'
 
 export default function ReactBricksApp({
@@ -19,8 +19,31 @@ export default function ReactBricksApp({
     localStorage.setItem('color-mode', newColorMode)
   }
 
+  const renderLocalLink: types.RenderLocalLink = ({
+    href,
+    className,
+    activeClassName,
+    tabIndex,
+    children,
+  }) => {
+    let anchorClassName = className || ''
+
+    let pathname = typeof window === 'undefined' ? '' : window.location.pathname
+
+    if (activeClassName && pathname && pathname === href) {
+      anchorClassName = `${className} ${activeClassName}`
+    }
+
+    return (
+      <a href={href} className={anchorClassName} tabIndex={tabIndex}>
+        {children}
+      </a>
+    )
+  }
+
   const reactBricksConfig = {
     ...config,
+    renderLocalLink,
     isDarkColorMode: colorMode === 'dark',
     toggleColorMode,
     contentClassName: `antialiased font-content ${colorMode} ${

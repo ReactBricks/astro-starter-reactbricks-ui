@@ -1,8 +1,8 @@
 ---
-import { reactBricksAstroStore } from 'react-bricks/astro'
+import { getBricks, reactBricksAstroStore } from 'react-bricks/astro'
 import PageViewer from 'react-bricks/astro/PageViewer.astro'
-import { fetchPage, fetchPages } from 'react-bricks/astro/server'
-import BaseLayout from '../../../layouts/BaseLayout.astro'
+import { cleanPage, fetchPage, fetchPages } from 'react-bricks/astro/server'
+import BaseLayout from '../../../../layouts/BaseLayout.astro'
 
 const config = reactBricksAstroStore.getConfig()
 
@@ -19,6 +19,7 @@ export async function getStaticPaths() {
     .map((page) =>
       page.translations.map((translation) => ({
         params: {
+          lang: translation.language,
           slug: translation.slug,
         },
       }))
@@ -28,32 +29,30 @@ export async function getStaticPaths() {
   return pages
 }
 
-const { slug } = Astro.params
-
-let cleanSlug = ''
-
-if (!slug) {
-  cleanSlug = '/'
-} else if (typeof slug === 'string') {
-  cleanSlug = slug
-}
+const { lang, slug = '/' } = Astro.params
 
 const page = await fetchPage({
-  slug: cleanSlug,
+  slug: slug,
+  language: lang,
   config,
 })
 
-if (!page) {
+// Clean the received content
+// Removes unknown or not allowed bricks
+const bricks = getBricks()
+const pageOk = page ? cleanPage(page, config.pageTypes || [], bricks) : null
+
+if (!pageOk) {
   return new Response('Not Found', { status: 404 })
 }
 ---
 
-<BaseLayout>
+<BaseLayout lang={lang}>
   <Fragment slot="head">
-    <title>{page?.meta.title || ''}</title>
+    <title>{pageOk?.meta.title || ''}</title>
     <meta
       name="description"
-      content={page?.meta.description || page?.meta.title || ''}
+      content={pageOk?.meta.description || pageOk?.meta.title || ''}
     />
   </Fragment>
 
@@ -66,5 +65,5 @@ if (!page) {
     }
   </style>
 
-  <PageViewer page={page} main />
+  <PageViewer page={pageOk} main />
 </BaseLayout>

@@ -1,23 +1,41 @@
 ---
 import { reactBricksAstroStore } from 'react-bricks/astro'
 import { fetchPages, fetchTags } from 'react-bricks/astro/server'
-import PostListItem from '../../components/PostListItem.astro'
-import TagListItem from '../../components/TagListItem.astro'
-import BaseLayout from '../../layouts/BaseLayout.astro'
+import PostListItem from '../../../components/PostListItem.astro'
+import TagListItem from '../../../components/TagListItem.astro'
+import { locales } from '../../../i18n/conf'
+import BaseLayout from '../../../layouts/BaseLayout.astro'
 
 const config = reactBricksAstroStore.getConfig()
 
-const { items: tags } = await fetchTags(config.apiKey)
-tags.sort()
+export async function getStaticPaths() {
+  const paths = locales.map((lang) => ({
+    params: {
+      lang,
+    },
+  }))
 
-const posts = await fetchPages(config.apiKey, {
-  type: 'blog',
-  pageSize: 1000,
-  sort: '-publishedAt',
-})
+  return paths
+}
+
+const { lang } = Astro.params
+
+const [posts, tagsResult] = await Promise.all([
+  fetchPages(config.apiKey, {
+    language: lang,
+    type: 'blog',
+    pageSize: 1000,
+    sort: '-publishedAt',
+  }),
+  fetchTags(config.apiKey, 1, 20, {
+    language: lang,
+  }),
+])
+
+const tags = tagsResult.items.sort()
 ---
 
-<BaseLayout>
+<BaseLayout lang={lang}>
   <Fragment slot="head">
     <title>Post List</title>
     <meta name="description" content="React Bricks Blog starter" />
@@ -32,7 +50,7 @@ const posts = await fetchPages(config.apiKey, {
       </h1>
 
       <div class="flex flex-wrap items-center">
-        {tags?.map((tag) => <TagListItem tag={tag} />)}
+        {tags?.map((tag) => <TagListItem tag={tag} lang={lang} />)}
       </div>
 
       <hr class="mt-6 mb-10 dark:border-gray-600" />
@@ -43,7 +61,8 @@ const posts = await fetchPages(config.apiKey, {
             return (
               <PostListItem
                 title={post.meta.title || ''}
-                href={post.slug}
+                slug={post.slug}
+                lang={lang}
                 content={post.meta.description || ''}
                 author={post.author}
                 date={post.publishedAt || ''}

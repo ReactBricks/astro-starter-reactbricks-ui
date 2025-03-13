@@ -8,6 +8,12 @@ interface ImportMeta {
   readonly env: ImportMetaEnv
 }
 
+declare namespace App {
+  interface Locals {
+    isRewrite?: boolean
+  }
+}
+
 interface Window {
   theme: {
     setTheme: (theme: 'auto' | 'dark' | 'light') => void

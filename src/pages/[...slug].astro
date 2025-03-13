@@ -1,57 +1,21 @@
 ---
-import { getBricks, reactBricksAstroStore } from 'react-bricks/astro'
-import PageViewer from 'react-bricks/astro/PageViewer.astro'
-import { cleanPage, fetchPage, fetchPages } from 'react-bricks/astro/server'
-import BaseLayout from '../layouts/BaseLayout.astro'
-import { createSlug, parseSlug } from '../util/i18n'
-
-const config = reactBricksAstroStore.getConfig()
+import { filterAndMapPaths } from '../i18n/util'
+import { getStaticPaths as getStaticPathsRoot } from './[lang]/[...slug].astro'
+import { getStaticPaths as getStaticPathsBlogPost } from './[lang]/blog/post/[...slug].astro'
+import { getStaticPaths as getStaticPathsBlogTag } from './[lang]/blog/tag/[tag].astro'
 
 export async function getStaticPaths() {
-  const config = reactBricksAstroStore.getConfig()
+  const [pathsRoot, pathsBlogPost, pathsBlogTag] = await Promise.all([
+    getStaticPathsRoot(),
+    getStaticPathsBlogPost(),
+    getStaticPathsBlogTag(),
+  ])
 
-  const allPages = await fetchPages(config.apiKey, {
-    type: 'page',
-  })
-
-  const pages = allPages.flatMap((page) => {
-    return page.translations.map((translation) => ({
-      params: {
-        slug: createSlug(translation.language, translation.slug),
-      },
-    }))
-  })
-
-  return pages
-}
-
-const { slug } = Astro.params
-const { cleanSlug, lang } = parseSlug(slug)
-
-const page = await fetchPage({
-  slug: cleanSlug,
-  language: lang,
-  config,
-})
-
-// Clean the received content
-// Removes unknown or not allowed bricks
-const bricks = getBricks()
-const pageOk = page ? cleanPage(page, config.pageTypes || [], bricks) : null
-
-if (!pageOk) {
-  return new Response('Not Found', { status: 404 })
+  return [
+    ...filterAndMapPaths(pathsRoot),
+    { params: { slug: '/blog' } },
+    ...filterAndMapPaths(pathsBlogPost, '/blog/post/'),
+    ...filterAndMapPaths(pathsBlogTag, '/blog/tag/'),
+  ]
 }
 ---
-
-<BaseLayout lang={lang}>
-  <Fragment slot="head">
-    <title>{pageOk?.meta.title || ''}</title>
-    <meta
-      name="description"
-      content={pageOk?.meta.description || pageOk?.meta.title || ''}
-    />
-  </Fragment>
-
-  <PageViewer page={pageOk} main />
-</BaseLayout>
