@@ -1,6 +1,6 @@
+import { defaultLocale } from '@/i18n/conf'
+import { parseSlug } from '@/i18n/util'
 import { reactBricksAstroStore, types } from 'react-bricks/astro'
-import { defaultLocale } from '../i18n/conf'
-import { parseSlug } from '../i18n/util'
 import bricks from './bricks'
 import pageTypes from './pageTypes'
 

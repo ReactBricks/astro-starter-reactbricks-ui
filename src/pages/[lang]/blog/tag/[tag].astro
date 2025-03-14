@@ -1,11 +1,11 @@
 ---
+import PostListItem from '@/components/PostListItem.astro'
+import TagListItem from '@/components/TagListItem.astro'
+import { locales } from '@/i18n/conf'
+import { getLocaleUrl } from '@/i18n/util'
+import BaseLayout from '@/layouts/BaseLayout.astro'
 import { reactBricksAstroStore } from 'react-bricks/astro'
 import { fetchPages, fetchTags } from 'react-bricks/astro/server'
-import PostListItem from '../../../../components/PostListItem.astro'
-import TagListItem from '../../../../components/TagListItem.astro'
-import { locales } from '../../../../i18n/conf'
-import { getLocaleUrl } from '../../../../i18n/util'
-import BaseLayout from '../../../../layouts/BaseLayout.astro'
 
 const config = reactBricksAstroStore.getConfig()
 

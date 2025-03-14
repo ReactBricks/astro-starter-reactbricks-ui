@@ -1,15 +1,15 @@
 ---
+import '@/styles/global.css'
 import '@fontsource-variable/nunito-sans'
-import '../styles/global.css'
 
+import ErrorNoFooter from '@/components/ErrorNoFooter.astro'
+import ErrorNoHeader from '@/components/ErrorNoHeader.astro'
+import ThemeManager from '@/components/ThemeManager.astro'
+import { defaultLocale } from '@/i18n/conf'
 import { ClientRouter } from 'astro:transitions'
 import { getBricks, reactBricksAstroStore } from 'react-bricks/astro'
 import PageViewer from 'react-bricks/astro/PageViewer.astro'
 import { cleanPage, fetchPage } from 'react-bricks/astro/server'
-import ErrorNoFooter from '../components/ErrorNoFooter.astro'
-import ErrorNoHeader from '../components/ErrorNoHeader.astro'
-import ThemeManager from '../components/ThemeManager.astro'
-import { defaultLocale } from '../i18n/conf'
 
 interface Props {
   lang?: string

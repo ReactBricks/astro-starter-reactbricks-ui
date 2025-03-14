@@ -1,9 +1,9 @@
 ---
+import { locales } from '@/i18n/conf'
+import BaseLayout from '@/layouts/BaseLayout.astro'
 import { getBricks, reactBricksAstroStore } from 'react-bricks/astro'
 import PageViewer from 'react-bricks/astro/PageViewer.astro'
 import { cleanPage, fetchPage, fetchPages } from 'react-bricks/astro/server'
-import { locales } from '../../../../i18n/conf'
-import BaseLayout from '../../../../layouts/BaseLayout.astro'
 
 const config = reactBricksAstroStore.getConfig()
 

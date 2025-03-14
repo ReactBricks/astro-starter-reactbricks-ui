@@ -4,7 +4,7 @@ import { Repeater, types } from 'react-bricks/astro'
 import { useForm } from 'react-hook-form'
 import blockNames from '../../blockNames'
 import { buttonColors } from '../../colors'
-import type { LayoutProps } from '../../LayoutSideProps'
+import type { LayoutProps } from '@/layoutSideProps'
 
 export interface FormBuilderProps extends LayoutProps {
   successMessage: string

@@ -1,5 +1,5 @@
 import { defineMiddleware } from 'astro:middleware'
-import { defaultLocale, locales } from './i18n/conf'
+import { defaultLocale, locales } from '@/i18n/conf'
 
 function getLanguageFromPath(pathname: string): string | null {
   const parts = pathname.split('/').filter(Boolean)
