@@ -3,16 +3,15 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --font-sans:
-    Nunito Sans Variable, ui-sans-serif, system-ui, sans-serif,
+  --font-sans: Nunito Sans Variable, ui-sans-serif, system-ui, sans-serif,
     'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 
   --breakpoint-sm: 600px;
   --breakpoint-lg: 900px;
   --breakpoint-xl: 1200px;
 
-  --shadow-news-letter:
-    0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 5px 15px 0 rgba(0, 0, 0, 0.05);
+  --shadow-news-letter: 0 1px 3px 0 rgba(0, 0, 0, 0.1),
+    0 5px 15px 0 rgba(0, 0, 0, 0.05);
 
   --background-image-gradient-radial: radial-gradient(var(--tw-gradient-stops));
   --background-image-gradient-conic: conic-gradient(
