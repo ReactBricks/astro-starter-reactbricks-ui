@@ -1,7 +1,7 @@
-import blockNames from '../blockNames'
 import classNames from 'classnames'
 import React, { useRef, useState } from 'react'
-import { Text, Repeater, types, Link, Plain } from 'react-bricks/astro'
+import { Link, Plain, Repeater, Text, types } from 'react-bricks/astro'
+import blockNames from '../blockNames'
 import useOnClickOutside from './useClickOutside'
 
 export interface MenuItems {
@@ -27,6 +27,7 @@ const HeaderMenuItem: types.Brick<HeaderMenuItemProps> = ({
 
   useOnClickOutside(ref, () => setOpen(false))
   useOnClickOutside(mobileRef, () => setMobileMenuOpen(false))
+
   if (!submenuItems || !submenuItems.length) {
     return (
       <div>
