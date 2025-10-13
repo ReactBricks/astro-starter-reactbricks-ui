@@ -1,6 +1,6 @@
 # React Bricks starter with Astro with Tailwind CSS and React Bricks UI
 
-Kick-start your project with this boilerplate for a complete Next.js website based on [React Bricks](https://reactbricks.com), with both the front-end and admin dashboard.
+Kick-start your project with this boilerplate for a complete Astro website based on [React Bricks](https://reactbricks.com), with both the front-end and admin dashboard.
 
 ## 🚀 Quick start
 
